@@ -1,46 +1,102 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefix = "A";
-client.on('ready', () => {
-console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`hi`,"http://twitch.tv/S-F")
-  console.log('')
-  console.log('')
-  console.log('╔[═════════════════════════════════════════════════════════════════]╗')
-  console.log(`[Start] ${new Date()}`);
-  console.log('╚[═════════════════════════════════════════════════════════════════]╝')
-  console.log('')
-  console.log('╔[════════════════════════════════════]╗');
-  console.log(`Logged in as * [ " ${client.user.username} " ]`);
-  console.log('')
-  console.log('Informations :')
-  console.log('')
-  console.log(`servers! [ " ${client.guilds.size} " ]`);
-  console.log(`Users! [ " ${client.users.size} " ]`);
-  console.log(`channels! [ " ${client.channels.size} " ]`);
-  console.log('╚[════════════════════════════════════]╝')
-  console.log('')
-  console.log('╔[════════════]╗')
-  console.log(' Bot Is Online')
-  console.log('╚[════════════]╝')
-  console.log('')
-  console.log('')
-});
-
-client.on('message', message => {
-  if(message.content === 'As') {
-  const embed = new Discord.RichEmbed()
-  .setThumbnail("https://e.top4top.net/p_10236vx1j1.png")
-  .setTitle('My server')
-  .addField('Trees Server',
-  .setURL('https://discord.gg/Wn9cs5 ')
-  .setTimestamp()
-  .setColor('#000000')
-  .setColor('#36393e')
-  message.channel.send({embed: embed});
+client.on("message", (message) => {
+    /// ALPHA CODES
+   if (message.content.startsWith("-ticket")) {     /// ALPHA CODES
+        const reason = message.content.split(" ").slice(1).join(" ");     /// ALPHA CODES
+        if (!message.guild.roles.exists("name", "Support Team")) return message.channel.send(`This server doesn't have a \`Support Team\` role made, so the ticket won't be opened.\nIf you are an administrator, make one with that name exactly and give it to users that should be able to see tickets.`);
+        if (message.guild.channels.exists("name", "ticket-{message.author.id}" + message.author.id)) return message.channel.send(`You already have a ticket open.`);    /// ALPHA CODES
+        message.guild.createChannel(`ticket-${message.author.username}`, "text").then(c => {
+            let role = message.guild.roles.find("name", "Support Team");
+            let role2 = message.guild.roles.find("name", "@everyone");
+            c.overwritePermissions(role, {
+                SEND_MESSAGES: true,
+                READ_MESSAGES: true
+            });    /// ALPHA CODES
+            c.overwritePermissions(role2, {
+                SEND_MESSAGES: false,
+                READ_MESSAGES: false
+            });
+            c.overwritePermissions(message.author, {
+                SEND_MESSAGES: true,
+                READ_MESSAGES: true
+            });
+            message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
+           
+            let logTkt = new Discord.RichEmbed()
+            .setTitle('OPEND A NEW TICKET')
+            .setColor('GREEN')
+            .setDescription(`tickty name: ${c.name}\nby: ${message.author.tag}`)
+            .setTimestamp()
+            .setFooter(message.author.tag, message.author.avatarURL)
+           
+            message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
+            const embed = new Discord.RichEmbed()
+            .setAuthor(message.author.username,message.author.avatarURL)                        
+           
+            .setColor(0xCF40FA)
+   .addField(`**مرحبآ, لدنيا فريق الدعم ليساعدك في أقرب وقت . ممكن  الرجاء منك الانتضار ريثما ياتي اليك احد اعضاء فريق الدعم**`)
+ .setTimestamp();
+              c.send({
+               
+            embed: embed
+            });
+        }).catch(console.error);
+    }
+ 
+ 
+  if (message.content.startsWith("-close")) {
+        if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
+ 
+      message.channel.send(`هل انت متأكد من اغلاق التيكت!\nلأغلاق التسكت اكتب \`-confirm\`. معاك 10 ثواني لاغلاق التيكت.`)
+          .then((m) => {
+              message.channel.awaitMessages(response => response.content === '-confirm', {
+                      max: 1,
+                      time: 10000,
+                      errors: ['time'],
+                  })    /// ALPHA CODES
+                  .then((collected) => {
+                       let logTkt = new Discord.RichEmbed()
+                       .setTitle('CLOSE TICKT')
+                       .setColor('RED')
+                       .setDescription(`tickt name: ${message.channel.name}\nby: ${message.author.tag}`)
+                       .setTimestamp()
+                       .setFooter(message.author.tag, message.author.avatarURL)
+                       
+                       message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
+                       message.channel.delete();
+                  })    /// ALPHA CODES
+                  .catch(() => {
+                      m.edit('انتهى الوقق,  لم يتم اغلاق التذكرة الرجاء المحاولة مرة اخرى .').then(m2 => {
+                          m2.delete();
+                      }, 3000);
+                  });
+          });
   }
 });
+ 
+client.on('message', msg => {
+ if(msg.content === '-help')
+	 
+ msg.reply(`
+      __**- Ticket System -**__
+        **لفتح تيكت**  
+	        -ticket		
+        **لأغلاق تيكت ** 
+	        -close 
 
+`)
+});
 
-// THIS  MUST  BE  THIS  WAY
+client.on('ready', () => {
+   console.log(`----------------`);
+      console.log(`notes Bot- Script By : relax`);
+        console.log(`----------------`);
+      console.log(`ON ${client.guilds.size} Servers '     Script By : relax ' `);
+    console.log(`----------------`);
+  console.log(`Logged in as ${client.user.tag}!`);
+client.user.setGame(`Ticket I -help`,"http://twitch.tv/Just")
+client.user.setStatus("online")
+});
+ 
 client.login(process.env.BOT_TOKEN);
