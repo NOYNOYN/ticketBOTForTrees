@@ -88,15 +88,4 @@ client.on('message', msg => {
 `)
 });
 
-client.on('ready', () => {
-   console.log(`----------------`);
-      console.log(`notes Bot- Script By : relax`);
-        console.log(`----------------`);
-      console.log(`ON ${client.guilds.size} Servers '     Script By : relax ' `);
-    console.log(`----------------`);
-  console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`Ticket I -help`,"http://twitch.tv/Just")
-client.user.setStatus("online")
-});
- 
 client.login(process.env.BOT_TOKEN);
