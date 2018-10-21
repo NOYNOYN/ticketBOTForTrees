@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+
 client.on("message", (message) => {
     /// ALPHA CODES
    if (message.content.startsWith("new")) {     /// ALPHA CODES
@@ -34,9 +35,10 @@ client.on("message", (message) => {
             message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
             const embed = new Discord.RichEmbed()
             .setAuthor(message.author.username,message.author.avatarURL)                        
-           
-            .setColor(0xCF40FA)
+            .setColor('#000000')
+            .setColor('#36393e')
    .addField(`**مرحبآ, لدنيا فريق الدعم ليساعدك في أقرب وقت . ممكن  الرجاء منك الانتضار ريثما ياتي اليك احد اعضاء فريق الدعم**`)
+ .setTimestamp();
               c.send({
                
             embed: embed
@@ -86,18 +88,9 @@ client.on('message', msg => {
 
 `)
 });
- 
-client.on('message', msg => {
- if(msg.content === '-help')
-	 
- msg.reply(`
-      __**- Ticket System -**__
-        **لفتح تيكت**  
-	        -ticket		
-        **لأغلاق تيكت ** 
-	        -close 
 
-`)
-});
+
+
+
 
 client.login(process.env.BOT_TOKEN);
