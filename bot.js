@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
+ 
 client.on("message", (message) => {
     /// ALPHA CODES
    if (message.content.startsWith("new")) {     /// ALPHA CODES
@@ -24,7 +25,7 @@ client.on("message", (message) => {
                 READ_MESSAGES: true
             });
             message.channel.send(`:white_check_mark: Your ticket has been created, #${c.name}.`);
-
+ 
             let logTkt = new Discord.RichEmbed()
             .setTitle('OPEND A NEW TICKET')
             .setColor('GREEN')
@@ -35,6 +36,7 @@ client.on("message", (message) => {
             message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
             const embed = new Discord.RichEmbed()
             .setAuthor(message.author.username,message.author.avatarURL)                        
+           
             .setColor('#000000')
             .setColor('#36393e')
    .addField(`**مرحبآ, لدنيا فريق الدعم ليساعدك في أقرب وقت . ممكن  الرجاء منك الانتضار ريثما ياتي اليك احد اعضاء فريق الدعم**`)
@@ -47,47 +49,36 @@ client.on("message", (message) => {
     }
  
   if (message.content.startsWith("close")) {
-        if (!message.channel.name.startsWith(`new`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
+        if (!message.channel.name.startsWith(`ticket-`)) return message.channel.send(`You can't use the close command outside of a ticket channel.`);
  
-      message.channel.send(`هل انت متأكد من اغلاق التيكت!\nلأغلاق التسكت اكتب \`-confirm\`. معاك 10 ثواني لاغلاق التيكت.`)
-          .then((m) => {
-              message.channel.awaitMessages(response => response.content === '-confirm', {
-                      max: 1,
-                      time: 10000,
-                      errors: ['time'],
-                  })    /// ALPHA CODES
-                  .then((collected) => {
-                       let logTkt = new Discord.RichEmbed()
-                       .setTitle('CLOSE TICKT')
-                       .setColor('RED')
-                       .setDescription(`tickt name: ${message.channel.name}\nby: ${message.author.tag}`)
-                       .setTimestamp()
-                       .setFooter(message.author.tag, message.author.avatarURL)
-                       
-                       message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
-                       message.channel.delete();
-                  })    /// ALPHA CODES
-                  .catch(() => {
-                      m.edit('انتهى الوقق,  لم يتم اغلاق التذكرة الرجاء المحاولة مرة اخرى .').then(m2 => {
-                          m2.delete();
-                      }, 3000);
-                  });
-          });
-  }
+     message.channel.send(`هل انت متأكد من اغلاق التيكت!\nلأغلاق التسكت اكتب \`-confirm\`. معاك 10 ثواني لاغلاق التيكت.`)
+         .then((m) => {
+             message.channel.awaitMessages(response => response.content === '-confirm', {
+                     max: 1,
+                     time: 10000,
+                     errors: ['time'],
+                 })    /// ALPHA CODES
+                 .then((collected) => {
+                      let logTkt = new Discord.RichEmbed()
+                      .setTitle('CLOSE TICKT')
+                      .setColor('RED')
+                      .setDescription(`tickt name: ${message.channel.name}\nby: ${message.author.tag}`)
+                      .setTimestamp()
+                      .setFooter(message.author.tag, message.author.avatarURL)
+                     
+                      message.guild.channels.find(c => c.name === 'log-ticket').send(logTkt);
+                      message.channel.delete();
+                 })    /// ALPHA CODES
+                 .catch(() => {
+                     m.edit('انتهى الوقق,  لم يتم اغلاق التذكرة الرجاء المحاولة مرة اخرى .').then(m2 => {
+                         m2.delete();
+                     }, 3000);
+                 });
+         });
+ }
 });
+ 
 
-client.on('message', msg => {
- if(msg.content === '-help')
-	 
- msg.reply(`
-      __**- Ticket System -**__
-        **لفتح تيكت**  
-	        new	
-        **لأغلاق تيكت ** 
-	        close 
-
-`)
-});
 
 
 
