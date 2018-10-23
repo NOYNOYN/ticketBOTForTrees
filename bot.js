@@ -27,7 +27,6 @@ return;
                 .setColor('#36393e')
        .setImage("https://c.top4top.net/p_1012e05dk1.png")
        .setThumbnail(message.author.avatarURL)
-       .setFooter(copy, client.user.avatarURL);
             m.send(`${m}`,{embed: bc})
     if(message.attachments.first()){
 m.sendFile(message.attachments.first().url).catch();
