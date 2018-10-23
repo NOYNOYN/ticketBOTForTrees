@@ -19,7 +19,6 @@ return;
         message.guild.members.forEach(m => {
    if(!message.member.hasPermission('ADMINISTRATOR')) return;
             var bc = new Discord.RichEmbed()
-            .setTitle('Trees Server'
             .addField('» السيرفر :', `${message.guild.name}`)
             .addField('» المرسل : ', `<@${message.author.id}>`)
             .addField(' » الرسالة : ', args)
